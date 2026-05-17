@@ -11,13 +11,13 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{.Values.backendServiceName}}
+                name: {{.Values.ingress.backendServiceName}}
                 port:
                   number: 3500
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{.Values.frontendServiceName}}
+                name: {{.Values.ingress.frontendServiceName}}
                 port:
                   number: 3000
