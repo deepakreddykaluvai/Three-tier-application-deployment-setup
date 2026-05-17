@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: three-tier-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/deepakreddykaluvai/Three-tier-application-deployment-setup.git
+    path: application-code-chart
+    targetRevision: HEAD
+    helm:
+      releaseName: three-tier-app
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: three-tier-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

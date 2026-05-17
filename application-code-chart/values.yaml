@@ -53,4 +53,7 @@ database:
   
   containerPort: 27017
 
+ingress:
+  backendServiceName: {{.Release.Name}}-backend-service
+  frontendServiceName: {{.Release.Name}}-frontend-service
   
