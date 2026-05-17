@@ -1,0 +1,56 @@
+backend:
+  replicaCount: 2
+
+  image:
+    repository: deepukaluvai/backend-application
+    tag: latest
+  
+  containerPort: 3500
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 1
+
+  env:
+    MONGO_CONN_STR: "mongodb://mongo:27017/todos"
+  
+  service:
+    type: ClusterIP
+    port: 3500
+    targetPort: 3500
+
+frontend:
+  replicaCount: 2
+
+  image:
+    repository: deepukaluvai/frontend-application
+    tag: latest
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 1
+  
+  containerPort: 3500
+
+  env:
+    REACT_APP_BACKEND_URL: "/api/tasks"
+  
+  service:
+    type: ClusterIP
+    port: 3000
+    targetPort: 3000
+
+database:
+  replicaCount: 2
+
+  image:
+    repository: deepukaluvai/mongodb
+    tag: latest
+  
+  containerPort: 27017
+
+  

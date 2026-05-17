@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels: 
+    app: frontend
+spec: 
+  replicas: 1
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 1
+  selector: 
+    matchLabels: 
+      app: frontend
+  template: 
+    metadata: 
+      labels: 
+        app: frontend
+    spec: 
+      containers: 
+        - name: frontend
+          image: deepukaluvai/frontend-application:latest
+          ports: 
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_BACKEND_URL
+              value: "/api/tasks"

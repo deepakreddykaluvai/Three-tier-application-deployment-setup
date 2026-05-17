@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-backend
+  labels: 
+    app: backend
+spec: 
+  replicas: {{.Values.backend.replicaCount}}
+  strategy: 
+    type: {{.Values.backend.strategy.type}}
+    rollingUpdate:
+      maxUnavailable: {{.Values.backend.strategy.rollingUpdate.maxUnavailable}}
+      maxSurge: {{.Values.backend.strategy.rollingUpdate.maxSurge}}
+  selector: 
+    matchLabels: 
+      app: backend
+  template: 
+    metadata: 
+      labels: 
+        app: backend
+    spec: 
+      containers: 
+        - name: backend
+          image: {{.Values.backend.image.repository}}:{{.Values.backend.image.tag}}
+          ports: 
+            - containerPort: {{.Values.backend.containerPort}}
+          env:
+            - name: MONGO_CONN_STR
+              value: {{.Values.backend.env.MONGO_CONN_STR}}

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-frontend
+  labels: 
+    app: frontend
+spec: 
+  replicas: {{.Values.frontend.replicaCount}}
+  strategy: 
+    type: {{.Values.frontend.strategy.type}}
+    rollingUpdate:
+      maxUnavailable: {{.Values.frontend.strategy.rollingUpdate.maxUnavailable}}
+      maxSurge: {{.Values.frontend.strategy.rollingUpdate.maxSurge}}
+  selector: 
+    matchLabels: 
+      app: frontend
+  template: 
+    metadata: 
+      labels: 
+        app: frontend
+    spec: 
+      containers: 
+        - name: {{.Release.Name}}-frontend-container
+          image: {{.Values.frontend.image.repository}}:{{.Values.frontend.image.tag}}
+          ports: 
+            - containerPort: {{.Values.frontend.containerPort}}
+          env:
+            - name: REACT_APP_BACKEND_URL
+              value: {{.Values.frontend.env.REACT_APP_BACKEND_URL}}

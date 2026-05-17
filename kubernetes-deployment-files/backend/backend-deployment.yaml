@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels: 
+    app: backend
+spec: 
+  replicas: 1
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 1
+  selector: 
+    matchLabels: 
+      app: backend
+  template: 
+    metadata: 
+      labels: 
+        app: backend
+    spec: 
+      containers: 
+        - name: backend
+          image: deepukaluvai/backend-application:latest  
+          ports: 
+            - containerPort: 3500
+          env:
+            - name: MONGO_CONN_STR
+              value: "mongodb://mongo:27017/todos"

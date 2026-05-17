@@ -1,0 +1,9 @@
+apiVersion: v2
+
+name: three-tier-application
+
+description: A Helm Chart to deploy the 3-tier application 
+
+type: application
+
+version: 0.1.0
